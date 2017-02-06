@@ -1,5 +1,6 @@
 package mislugares.example.org.mislugares;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Button bSalir =(Button) findViewById(R.id.button04);
+        bSalir.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+    public void lanzarAcercaDe(View view){
+        Intent i = new Intent(this, AcercaDeActivity.class);
+        startActivity(i);
+    }
+    public void salir(View view){
+        finish();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -44,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id. acercaDe) {
+            lanzarAcercaDe(null);
             return true;
         }
         return super.onOptionsItemSelected(item);
