@@ -7,4 +7,6 @@
     <string name="accion_salir">SALIR</string>
     <string name="action_settings">Configuracion</string>
     <string name="acerca"> Esta aplicacion permite referenciar lugares de interes, almacenadolos en una base de datos. </string>
+    <string name="nlugar">"Nombres del lugar"</string>
+    <string name="tlugar">"Tipo del lugar"</string>
 </resources>
