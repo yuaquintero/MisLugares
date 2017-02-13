@@ -1,5 +1,7 @@
 package mislugares.example.org.mislugares;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,9 +68,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void lanzarVistaLugar(View view){
-        Intent i = new Intent(this, VistaLugarActivity.class);
-        i.putExtra("id", (long)0);
-        startActivity(i);
+      //  Intent i = new Intent(this, VistaLugarActivity.class);
+       // i.putExtra("id", (long)0);
+        //startActivity(i);
+
+        final EditText entrada = new EditText(this);
+        entrada.setText("0");
+        new AlertDialog.Builder(this)
+                .setTitle("Selección de lugar")
+                .setMessage("indica su id:")
+                .setView(entrada)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        long id = Long.parseLong(entrada.getText().toString());
+                        Intent i = new Intent(MainActivity.this, VistaLugarActivity.class);
+                        i.putExtra("id", id);
+                        startActivity(i);
+                    }})
+                .setNegativeButton("Cancelar", null)
+                .show();
     }
 
     public void mostrarPreferencias(View view){

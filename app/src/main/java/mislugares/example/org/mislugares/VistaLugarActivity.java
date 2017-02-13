@@ -1,34 +1,24 @@
 package mislugares.example.org.mislugares;
 
-import java.util.Date;
-import java.text.DateFormat;
-import android.net.Uri;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
+import java.text.DateFormat;
 import java.util.Date;
 
-/**
- * Created by Quintero on 07/02/2017.
- */
-
 public class VistaLugarActivity extends AppCompatActivity {
-
     private long id;
     private Lugar lugar;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,51 +51,63 @@ public class VistaLugarActivity extends AppCompatActivity {
         valoracion.setRating(lugar.getValoracion());
         valoracion.setOnRatingBarChangeListener(
                 new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar,
-                                                float valor, boolean fromUser) {
+                    @Override public void onRatingChanged(RatingBar ratingBar,
+                                                          float valor, boolean fromUser) {
                         lugar.setValoracion(valor);
                     }
                 });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
-
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("VistaLugar Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.vista_lugar, menu);
+        return true;
+    }
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    public void borrarLugar(final int id) {
+       // final EditText entrada = new EditText(this);
+        //entrada.setText("0");
+        new AlertDialog.Builder(this)
+                .setTitle("Borrado de lugar")
+                .setMessage("Estas seguro que queires eliminar este lugar:")
+                //.setView(entrada)
+                .setPositiveButton("confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        MainActivity.lugares.borrar((int) id );
+                        finish();
+                    }})
+                .setNegativeButton("Cancelar", null)
+                .show();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.accion_compartir:
+               return true;
+            case R.id.accion_llegar:
+                return true;
+            case R.id.accion_editar:
+                lanzarEdicionVista(null);
+                return true;
+            case R.id.accion_borrar:
+                //MainActivity.lugares.borrar((int) id );
+                borrarLugar((int) id);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+        }
+
     }
+
+    public void lanzarEdicionVista(View view){
+        Intent i = new Intent(this, EdicionLugarActivity.class);
+        i.putExtra("id", (long)0);
+        startActivity(i);
+    }
+
 }
